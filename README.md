@@ -1,38 +1,21 @@
 # docker-mopidy
-Run mopidy plus various extensions in a docker container
-The image plays bitperfect using alsa devices.
+Runs [Mopidy](https://mopidy.com/), plus various extensions, in a Docker container. The image plays bitperfect using alsa devices.
 Pulseaudio is not needed.
  
-Plugins
-=======
+# Included Plugins
+- [Mopidy-Local](https://mopidy.com/ext/local/)
+- [Mopidy-MPD](https://mopidy.com/ext/mpd/)
+- [Mopidy-ALSAMixer](https://mopidy.com/ext/alsamixer/)
 
-- Mopidy-Local
-- Mopidy-Mpd
-- Mopidy-Podcast
-- Mopidy-Podcast-Itunes
-- Mopidy-ALSAMixer
-- Mopidy-Scrobbler
-- Mopidy-Spotify
-- Mopidy-Somafm
-- Mopidy-Soundcloud
-- Mopidy-Tunein
+# Run
+    docker run -d  --name mopidy --net host --device /dev/snd  \
+               -v ~/.config:/root/.config  \
+               -v /data/music:/data/music thedingstroders/mopidy
 
+# Buildx
 
-To be extended
+Using buildx, it is possible to build a multi-platform image that runs on arm7 (Raspberry Pi, Odroid etc.), as well as on amd64 (x86 architecture):
 
-RUN
-===
+    docker buildx build --platform linux/amd64,linux/arm/v7 --push -t thedingstroders/mopidy:latest .
 
-        docker run -d  --name mopidy --net host --device /dev/snd  \
-                -v ~/.config:/root/.config  \
-                -v /data/music:/data/music rawdlite/mopidy
-
-Buildx
-======
-
-Using buildx, it is possible to build a multi-platform image that runs on Raspberry Pi, Odroid etc. (armv7)
-as well as on x86 architecture (amd64)
-
-docker buildx build --platform linux/amd64,linux/arm/v7 --push -t rawdlite/mopidy:latest .
-
-Docker picks the correct image based on the node’s platform
+Docker picks the correct image based on the node's platform.
