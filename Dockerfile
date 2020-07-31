@@ -1,8 +1,7 @@
-FROM ubuntu:19.10
+FROM debian:buster-slim
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
        build-essential \
        gettext \
        openssl \
@@ -11,16 +10,21 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
        curl \
        gnupg2 \
        python3 \
-       python3-pip
-RUN curl -k "https://apt.mopidy.com/mopidy.gpg" | apt-key add -
-RUN curl -k "https://apt.mopidy.com/buster.list" > /etc/apt/sources.list.d/mopidy.list
+       python3-pip && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    curl -k "https://apt.mopidy.com/mopidy.gpg" | apt-key add - && \
+    curl -k "https://apt.mopidy.com/buster.list" > /etc/apt/sources.list.d/mopidy.list && \
+    apt-get remove -y curl
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
        mopidy \
+       mopidy-alsamixer \
        mopidy-local \
-       mopidy-local-sqlite \
        mopidy-mpd && \
-    python3 -m pip install Mopidy-Iris
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+RUN python3 -m pip install Mopidy-Iris
 RUN mkdir -p /data/music
 EXPOSE 6680 6600
 CMD ["/usr/bin/mopidy"]
