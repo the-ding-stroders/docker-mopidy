@@ -4,5 +4,4 @@ docker run -d \
    --device /dev/snd  \
    -v ~/.config/mopidy/mopidy-docker.conf:/root/.config/mopidy/mopidy.conf \
    -v /data/music:/data/music \
-   -v /data/raid1/music/:/data/raid1/music/  \
-rawdlite/mopidy:latest
+thedingstroders/mopidy:latest
