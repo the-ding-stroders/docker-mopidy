@@ -29,5 +29,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 RUN python3 -m pip install Mopidy-Iris
 RUN mkdir -p /data/music
+COPY ./entrypoint.sh /data/entrypoint.sh
+RUN chmod +x /data/entrypoint.sh
 EXPOSE 6680 6600
-CMD ["/usr/bin/mopidy"]
+ENTRYPOINT [ "/data/entrypoint.sh" ]
