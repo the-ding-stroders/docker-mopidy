@@ -9,6 +9,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
        apt-transport-https \
        curl \
        gnupg2 \
+       alsa-utils \
+       gstreamer1.0-alsa \
+       gstreamer1.0-tools \
        python3 \
        python3-pip && \
     apt-get clean && \
